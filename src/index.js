@@ -44,5 +44,5 @@ function renderUserList(users) {
     })
     .join('');
   list.innerHTML = markup;
-  console.log('fdfdfdf');
+  console.log(users.languages);
 }
