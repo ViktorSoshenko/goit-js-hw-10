@@ -3,25 +3,31 @@ import debounce from 'lodash.debounce';
 const DEBOUNCE_DELAY = 300;
 const input = document.querySelector('#search-box');
 const list = document.querySelector('.country-list');
-input.addEventListener('input', () => {
-  fetchCountries()
+
+input.addEventListener('input', event => {
+  event.currentTarget.value;
+  fetchCountries(event.currentTarget.value)
     .then(users => renderUserList(users))
     .catch(error => console.log(error));
+  console.log(event.currentTarget.value);
 });
 // fetch('https://restcountries.com/v3.1/all')
 //   .then(r => r.json())
 //   .then(console.log);
-
+//restcountries.com/v3.1/name/{name}
+const BASE_URL = 'https://restcountries.com/v3.1/name/';
+const fields = 'fields=name,capital,population,flags,languages';
 function fetchCountries(name) {
-  return fetch(
-    `https://restcountries.com/v3.1/all?fields=name,capital,population,flags,lang`
-  ).then(response => {
-    if (!response.ok) {
-      throw new Error(response.status);
-    }
-    return response.json();
-  });
+  return fetch(`${BASE_URL}${input.value}?${fields}`)
+    .then(response => response.json())
+    .catch(error => console.error());
 }
+
+// function coutntry(name) {
+//   return fetch(
+//     `https://restcountries.com/v3.1/name/{${event.currentTarget.value}}`
+//   );
+// }
 
 function renderUserList(users) {
   const markup = users
@@ -38,5 +44,5 @@ function renderUserList(users) {
     })
     .join('');
   list.innerHTML = markup;
-  console.log(languages);
+  console.log('fdfdfdf');
 }
